@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Carbon - Admin Template</title>
+    <title>资产管理系统</title>
     <link rel="stylesheet" href="/bower_components/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bower_components/vendor/simple-line-icons/css/simple-line-icons.css">
     <link rel="stylesheet" href="/bower_components/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/bower_components/vendor/layer/skin/default/layer.css">
+    <link rel="stylesheet" href="/bower_components/vendor/ztree/css/metroStyle/metroStyle.css"/>
     <link rel="stylesheet" href="/bower_components/vendor/treegrid/jquery.treegrid.css">
     <link rel="stylesheet" href="/bower_components/css/styles.css">
 	<style type="text/css">
@@ -19,7 +21,7 @@
 		}
 	</style>
 </head>
-<body class="sidebar-fixed header-fixed">
+<body>
 <div class="page-wrapper">
     <nav class="navbar page-header">
         <a href="#" class="btn btn-link sidebar-mobile-toggle d-md-none mr-auto">
@@ -108,7 +110,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="buttons.html" class="nav-link">
+                                <a href="javascript:void(0)" class="nav-link" id="sys-log-id">
                                     <i class="fa fa-angle-right "></i> 日志管理
                                 </a>
                             </li>
@@ -197,6 +199,7 @@ $(function(){
 	   //点击事件注册
 	   //当点击指定id对应的对象时,执行某个操作(页面加载)
 	   doLoadUI("sys-menu-id","sys/menu_list");
+	   doLoadUI("sys-log-id","sys/log_list");
 });
 //提取共性
 function doLoadUI(id,url){
