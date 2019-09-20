@@ -7,4 +7,9 @@
   		select *
   		from sys_menus
   	</select>
+
+  	<insert id="insertObject">
+  		insert into sys_menus(name,url,type,sort,note,parentId,permission,createdTime,modifiedTime,createdUser,modifiedUser)
+  		values(#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},now(),now(),#{createdUser},#{modifiedUser})
+  	</insert>
   </mapper>
