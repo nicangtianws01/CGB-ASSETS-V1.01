@@ -12,8 +12,6 @@ import com.cy.sys.entity.SysMenu;
 @Mapper
 public interface SysMenuDao {
 	List<SysMenu> findObjects();
-	
-<<<<<<< HEAD
 	int deleteObjectsByRoleId(Integer roleId);
 	@Delete("delete from sys_menus where id=#{id}")
         int deleteObjectById(Integer id);
@@ -25,17 +23,4 @@ public interface SysMenuDao {
 
         @Select("select count(*) from sys_menus where parentId=#{parentId}")
         int getChildCount(Integer id);
-=======
-	int deleteObjectsByRoleId(Integer roleId);
-	@Delete("delete from sys_menus where id=#{id}")
-	int deleteObjectById(Integer id);
-	
-	int insertObject(SysMenu entity);
-	
-	@Select("select id,name,parentId from sys_menus")
-	List<Node> findZtreeMenuNodes();
-
-	@Select("select count(*) from sys_menus where parentId=#{parentId}")
-	int getChildCount(Integer id);
->>>>>>> tmp/master
 }
