@@ -9,4 +9,6 @@ import com.cy.sys.entity.SysMenu;
 @Mapper
 public interface SysMenuDao {
 	List<SysMenu> findObjects();
+	
+	int deleteObjectsByRoleId(Integer roleId);
 }
