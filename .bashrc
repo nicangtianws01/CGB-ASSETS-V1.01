@@ -1,0 +1,1 @@
+alias notepad++="'C:/Program Files/Notepad++/notepad++.exe' -multiInst -notabbar -nosession -noPlugin"
