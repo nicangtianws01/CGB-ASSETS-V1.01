@@ -33,4 +33,9 @@ public class SysMenuController {
 		sysMenuService.saveObject(entity);
 		return new JsonResult("Save OK!");
 	}
+	@RequestMapping("doUpdateObject")
+	public JsonResult doUpdateObject(SysMenu entity) {
+		sysMenuService.updateObject(entity);
+		return new JsonResult("Update OK!");
+	}
 }

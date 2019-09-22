@@ -116,13 +116,13 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="cards.html" class="nav-link">
+                                <a href="javascript:void(0)" class="nav-link" id="sys-user-id">
                                     <i class="fa fa-angle-right"></i> 员工管理
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="modals.html" class="nav-link">
+                                <a href="javascript:void(0)" class="nav-link" id="sys-dept-id">
                                     <i class="fa fa-angle-right"></i> 部门管理
                                 </a>
                             </li>
@@ -201,6 +201,8 @@ $(function(){
 	   doLoadUI("sys-menu-id","sys/menu_list");
 	   doLoadUI("sys-log-id","sys/log_list");
 	   doLoadUI("sys-role-id","sys/role_list");
+	   doLoadUI("sys-dept-id","sys/dept_list");
+	   doLoadUI("sys-user-id","sys/user_list");
 });
 //提取共性
 function doLoadUI(id,url){

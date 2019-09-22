@@ -12,4 +12,18 @@
   		insert into sys_menus(name,url,type,sort,note,parentId,permission,createdTime,modifiedTime,createdUser,modifiedUser)
   		values(#{name},#{url},#{type},#{sort},#{note},#{parentId},#{permission},now(),now(),#{createdUser},#{modifiedUser})
   	</insert>
+  	<update id="updateObject">
+  		update sys_menus
+  		set
+  			name=#{name},
+  			url=#{url},
+  			type=#{type},
+  			sort=#{sort},
+  			note=#{note},
+  			parentId=#{parentId},
+  			permission=#{permission},
+  			modifiedTime=now(),
+  			modifiedUser=#{modifiedUser}
+  		where id=#{id}
+  	</update>
   </mapper>

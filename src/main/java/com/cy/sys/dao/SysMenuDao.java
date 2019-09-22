@@ -23,4 +23,6 @@ public interface SysMenuDao {
 
 	@Select("select count(*) from sys_menus where parentId=#{parentId}")
 	int getChildCount(Integer id);
+	
+	int updateObject(SysMenu entity);
 }

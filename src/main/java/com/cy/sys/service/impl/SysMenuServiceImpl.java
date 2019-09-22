@@ -80,5 +80,23 @@ public class SysMenuServiceImpl implements SysMenuService{
 	public List<Node> findZtreeMenuNodes() {
 		return sysMenuDao.findZtreeMenuNodes();
 	}
+	@Override
+	public int updateObject(SysMenu entity) {
+		//1.验证参数
+		if(entity == null) {
+			throw new IllegalArgumentException("菜单不能为空");
+		}
+		if(StringUtils.isEmpty(entity.getName())) {
+			throw new IllegalArgumentException("菜单名不能为空");
+		}
+		entity.setModifiedUser("admin");
+		//2.执行更新操作
+		int rows = sysMenuDao.updateObject(entity);
+		//3.判断是否更新成功
+		if(rows == 0) {
+			throw new ServiceException("更新失败，请稍后重试");
+		}
+		return rows;
+	}
 
 }

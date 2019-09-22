@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 public interface SysRoleMenuDao {
 	int deleteObjectsByMenuId(Integer menuId);
 	
-int deleteObjectsByRoleId(Integer id);
+	int deleteObjectsByRoleId(Integer id);
 	
 	int insertObjects(
 			@Param("roleId")Integer roleId,

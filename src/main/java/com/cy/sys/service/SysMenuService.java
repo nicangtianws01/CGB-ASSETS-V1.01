@@ -10,4 +10,5 @@ public interface SysMenuService {
 	int deleteObject(Integer id);
 	int saveObject(SysMenu entity);
 	List<Node> findZtreeMenuNodes();
+	int updateObject(SysMenu entity);
 }
