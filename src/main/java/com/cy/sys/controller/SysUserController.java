@@ -1,4 +1,7 @@
 package com.cy.sys.controller;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 //import org.apache.shiro.SecurityUtils;
 //import org.apache.shiro.authc.UsernamePasswordToken;
 //import org.apache.shiro.subject.Subject;
@@ -37,23 +40,21 @@ public class SysUserController {//BeanFactory
 //		 return new JsonResult("update ok");
 //	 }
 
-//	 @RequestMapping("doLogin")
-//	 public JsonResult doLogin(
-//			 String username,String password,
-//			 boolean isRememberMe) {
-//		 System.out.println("doLogin(..)");
-//		 //1.封装用户信息
-//		 UsernamePasswordToken token=new UsernamePasswordToken();
-//		 token.setUsername(username);
-//		 token.setPassword(password.toCharArray());
-//		 //2.提交用户信息(借助Subject对象)
-//		 //获取Subject对象
-//		 Subject subject=SecurityUtils.getSubject();
-//		 //提交用户信息进行认证
-//		 if(isRememberMe)token.setRememberMe(true);
-//		 subject.login(token);
-//		 return new JsonResult("登录ok");
-//	 }
+	 @RequestMapping("doLogin")
+	 public JsonResult doLogin(String username,String password,boolean isRememberMe) {
+		 System.out.println(username+"\n"+password);
+		 //1.封装用户信息
+		 UsernamePasswordToken token=new UsernamePasswordToken();
+		 token.setUsername(username);
+		 token.setPassword(password.toCharArray());
+		 //2.提交用户信息(借助Subject对象)
+		 //获取Subject对象
+		 Subject subject=SecurityUtils.getSubject();
+		 //提交用户信息进行认证
+		 if(isRememberMe)token.setRememberMe(true);
+		 subject.login(token);
+		 return new JsonResult("login OK");
+	 }
 
 	 @RequestMapping("doFindObjectById")
 	 public JsonResult doFindObjectById(
@@ -73,13 +74,13 @@ public class SysUserController {//BeanFactory
 		 return new JsonResult("save ok");
 	 }
 	 
-//	 @RequestMapping("doValidById")
-//	 public JsonResult doValidById(Integer id,Integer valid) {
-//		 SysUser user=(SysUser)
-//		 SecurityUtils.getSubject().getPrincipal();
-//		 sysUserService.validById(id, valid,user.getUsername());
-//		 return new JsonResult("update ok");
-//	 }
+	 @RequestMapping("doValidById")
+	 public JsonResult doValidById(Integer id,Integer valid) {
+		 SysUser user=(SysUser)
+		 SecurityUtils.getSubject().getPrincipal();
+		 sysUserService.validById(id, valid,user.getUsername());
+		 return new JsonResult("update ok");
+	 }
 	 
 	 @GetMapping("doFindPageObjects")
      public JsonResult doFindPageObjects(String username,Integer pageCurrent) {
