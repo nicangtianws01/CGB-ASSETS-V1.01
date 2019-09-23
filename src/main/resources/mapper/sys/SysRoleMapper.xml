@@ -42,6 +42,7 @@
 			select="com.cy.sys.dao.SysRoleMenuDao.findMenuIdsByRoleId">
 		</collection>
 	</resultMap>
+	
 	<!-- 基于角色id查询角色信息 -->
 	<select id="findObjectById" resultMap="sysRoleMenuVo">
 		select id,name,note

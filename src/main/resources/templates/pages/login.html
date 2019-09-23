@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Carbon - Admin Template</title>
+    <link rel="stylesheet" href="/bower_components/vendor/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="/bower_components/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="/bower_components/css/styles.css">
+</head>
+<body>
+<div class="page-wrapper flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card p-4">
+                    <div class="card-header text-center text-uppercase h4 font-weight-light">
+                        Login
+                    </div>
+                    <div class="card-header text-center text-uppercase h4 font-weight-light login-box-msg">
+                        
+                    </div>
+
+                    <div class="card-body py-5">
+                        <div class="form-group">
+                            <label class="form-control-label">username</label>
+                            <input type="text" class="form-control" name="username"  id="usernameId">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-control-label">Password</label>
+                            <input type="password" class="form-control" name="password" id="passwordId">
+                        </div>
+
+                        <div class="custom-control custom-checkbox mt-4">
+                            <input type="checkbox" class="custom-control-input" id="login">
+                            <label class="custom-control-label" for="login">Check this custom checkbox</label>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-6">
+                               <a class="btn btn-primary px-5 login">Login</a>
+                                <!-- <button type="button" class="btn btn-primary btn-block btn-flat btn-login">Login</button> -->
+                            </div>
+
+                            <div class="col-6">
+                                <a href="#" class="btn btn-link">Forgot password?</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/bower_components/vendor/jquery/jquery.min.js"></script>
+<script src="/bower_components/vendor/popper.js/popper.min.js"></script>
+<script src="/bower_components/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/bower_components/vendor/chart.js/chart.min.js"></script>
+<script src="/bower_components/js/carbon.js"></script>
+<script src="/bower_components/js/demo.js"></script>
+
+<script>
+  $(function () {
+    $(".card-footer").on("click",".login",doLogin);
+  });
+  function doLogin(){
+	  var params={
+		 username:$("#usernameId").val(),
+		 password:$("#passwordId").val(),
+		 isRememberMe:$("#rememberId").prop("checked"),
+	  }
+	  var url="user/doLogin";
+	  console.log("params",params);
+	  $.post(url,params,function(result){
+		  if(result.state==1){
+			//跳转到indexUI对应的页面
+			location.href="doIndexUI?t="+Math.random();
+		  }else{
+			  $(".login-box-msg").html(result.message); 
+		  }
+		  return false;//防止刷新时重复提交
+	  });
+  }
+</script>
+
+</body>
+</html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import com.cy.common.vo.Node;
@@ -25,4 +26,6 @@ public interface SysMenuDao {
 	int getChildCount(Integer id);
 	
 	int updateObject(SysMenu entity);
+	
+	List<String> findPermissions(@Param("menuIds")Integer[] menuIds);
 }
