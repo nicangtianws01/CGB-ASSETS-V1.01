@@ -18,10 +18,10 @@ public interface SysUserDao {
 	 * @param id
 	 * @return
 	 */
-	int updatePassword(
-			@Param("password")String password,
-			@Param("salt")String salt,
-			@Param("id")Integer id);
+//	int updatePassword(
+//			@Param("password")String password,
+//			@Param("salt")String salt,
+//			@Param("id")Integer id);
 
 	/**
 	  * 基于用户名查找用户对象
@@ -78,4 +78,5 @@ public interface SysUserDao {
 			 @Param("username")String username,
 			 @Param("startIndex")Integer startIndex,
 			 @Param("pageSize")Integer pageSize);
+	 
 }
