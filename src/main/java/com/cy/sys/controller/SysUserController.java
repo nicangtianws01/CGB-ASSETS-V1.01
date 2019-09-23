@@ -1,15 +1,14 @@
 package com.cy.sys.controller;
-//import org.apache.shiro.SecurityUtils;
-//import org.apache.shiro.authc.UsernamePasswordToken;
-//import org.apache.shiro.subject.Subject;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cy.common.util.ShiroUtils;
 import com.cy.common.vo.JsonResult;
-//import com.cy.common.util.ShiroUtils;
 import com.cy.sys.entity.SysUser;
 import com.cy.sys.service.SysUserService;
 
@@ -23,10 +22,10 @@ public class SysUserController {//BeanFactory
 	 @Autowired
 	 private SysUserService sysUserService;
 	 
-//	 @RequestMapping("doGetLoginUser")
-//	 public JsonResult doGetLoginUser() {
-//		 return new JsonResult(ShiroUtils.getLoginUser());
-//	 }
+	 @RequestMapping("doGetLoginUser")
+	 public JsonResult doGetLoginUser() {
+		 return new JsonResult(ShiroUtils.getLoginUser());
+	 }
 	 
 //	 @RequestMapping("doUpdatePassword")
 //	 public JsonResult doUpdatePassword(
@@ -37,23 +36,23 @@ public class SysUserController {//BeanFactory
 //		 return new JsonResult("update ok");
 //	 }
 
-//	 @RequestMapping("doLogin")
-//	 public JsonResult doLogin(
-//			 String username,String password,
-//			 boolean isRememberMe) {
-//		 System.out.println("doLogin(..)");
-//		 //1.封装用户信息
-//		 UsernamePasswordToken token=new UsernamePasswordToken();
-//		 token.setUsername(username);
-//		 token.setPassword(password.toCharArray());
-//		 //2.提交用户信息(借助Subject对象)
-//		 //获取Subject对象
-//		 Subject subject=SecurityUtils.getSubject();
-//		 //提交用户信息进行认证
-//		 if(isRememberMe)token.setRememberMe(true);
-//		 subject.login(token);
-//		 return new JsonResult("登录ok");
-//	 }
+	 @RequestMapping("doLogin")
+	 public JsonResult doLogin(
+			 String username,String password,
+			 boolean isRememberMe) {
+		 System.out.println("doLogin(..)");
+		 //1.封装用户信息
+		 UsernamePasswordToken token=new UsernamePasswordToken();
+		 token.setUsername(username);
+		 token.setPassword(password.toCharArray());
+		 //2.提交用户信息(借助Subject对象)
+		 //获取Subject对象
+		 Subject subject=SecurityUtils.getSubject();
+		 //提交用户信息进行认证
+		 if(isRememberMe)token.setRememberMe(true);
+		 subject.login(token);
+		 return new JsonResult("登录ok");
+	 }
 
 	 @RequestMapping("doFindObjectById")
 	 public JsonResult doFindObjectById(
