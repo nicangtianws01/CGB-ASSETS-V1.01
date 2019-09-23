@@ -176,14 +176,14 @@ public class SysUserServiceImpl implements SysUserService {
 		List<SysUserDeptVo> records=
 				sysUserDao.findPageObjects(username, startIndex, pageSize);
 		//4.对查询结果进行封装并返回
-		//		return new PageObject<>(pageCurrent, pageSize, rowCount, records);
-		PageObject<SysUserDeptVo> pageObject=new PageObject<>();
-		pageObject.setPageCurrent(pageCurrent);
-		pageObject.setRowCount(rowCount);
-		pageObject.setPageSize(pageSize);
-		pageObject.setRecords(records);
-		pageObject.setPageCount((rowCount-1)/pageSize+1);
-		return pageObject;
+				return new PageObject<SysUserDeptVo>(pageCurrent, records, rowCount, pageSize);
+//		PageObject<SysUserDeptVo> pageObject=new PageObject<>();
+//		pageObject.setPageCurrent(pageCurrent);
+//		pageObject.setRowCount(rowCount); 
+//		pageObject.setPageSize(pageSize);
+//		pageObject.setRecords(records);
+//		pageObject.setPageCount((rowCount-1)/pageSize+1);
+//		return pageObject;
 	}
 
 

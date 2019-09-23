@@ -15,7 +15,10 @@ import com.cy.sys.vo.SysRoleMenuVo;
 public class SysRoleController {
 	@Autowired
 	private SysRoleService sysRoleService;
-	
+	 @RequestMapping("doFindRoles")
+	 public JsonResult doFindRoles() {
+		 return new JsonResult(sysRoleService.findRoles());
+	 }
 	@RequestMapping("doFindPageObjects")
 	public JsonResult doFindPageObjects(String name,Integer pageCurrent) {
 		PageObject<SysRole> findPageObjects = sysRoleService.findPageObjects(name, pageCurrent);
