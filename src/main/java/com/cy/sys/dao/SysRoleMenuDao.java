@@ -1,5 +1,7 @@
 package com.cy.sys.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +14,6 @@ public interface SysRoleMenuDao {
 	int insertObjects(
 			@Param("roleId")Integer roleId,
 			@Param("menuIds")Integer[] menuIds);
+
+	List<Integer> findMenuIdsByRoleIds(Integer[] array);
 }

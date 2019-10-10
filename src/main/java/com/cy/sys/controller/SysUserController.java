@@ -12,13 +12,9 @@ import com.cy.common.vo.JsonResult;
 import com.cy.sys.entity.SysUser;
 import com.cy.sys.service.SysUserService;
 
-
-
-
-
 @RestController
 @RequestMapping("/user/")
-public class SysUserController {//BeanFactory
+public class SysUserController {
 	 @Autowired
 	 private SysUserService sysUserService;
 	 
@@ -27,14 +23,14 @@ public class SysUserController {//BeanFactory
 		 return new JsonResult(ShiroUtils.getLoginUser());
 	 }
 	 
-//	 @RequestMapping("doUpdatePassword")
-//	 public JsonResult doUpdatePassword(
-//			 String pwd,
-//			 String newPwd,
-//			 String cfgPwd) {
-//		 sysUserService.updatePassword(pwd, newPwd, cfgPwd);
-//		 return new JsonResult("update ok");
-//	 }
+	 @RequestMapping("doUpdatePassword")
+	 public JsonResult doUpdatePassword(
+			 String pwd,
+			 String newPwd,
+			 String cfgPwd) {
+		 sysUserService.updatePassword(pwd, newPwd, cfgPwd);
+		 return new JsonResult("update ok");
+	 }
 
 	 @RequestMapping("doLogin")
 	 public JsonResult doLogin(
@@ -74,9 +70,9 @@ public class SysUserController {//BeanFactory
 	 
 	 @RequestMapping("doValidById")
 	 public JsonResult doValidById(Integer id,Integer valid) {
-//		 SysUser user=(SysUser)
-//		 SecurityUtils.getSubject().getPrincipal();
-		 sysUserService.validById(id, valid,"admin");
+		 SysUser user=(SysUser)
+		 SecurityUtils.getSubject().getPrincipal();
+		 sysUserService.validById(id, valid,user.getUsername());
 		 return new JsonResult("update ok");
 	 }
 	 

@@ -56,4 +56,6 @@ public interface SysUserService {
 	 PageObject<SysUserDeptVo> findPageObjects(
 			 String username,
 			 Integer pageCurrent);
+
+	int updatePassword(String pwd, String newPwd, String cfgPwd);
 }

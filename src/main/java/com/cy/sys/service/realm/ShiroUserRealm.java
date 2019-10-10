@@ -34,14 +34,14 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	@Autowired
 	private SysUserDao sysUserDao;
 	
-//	@Autowired
-//	private SysUserRoleDao sysUserRoleDao;
-//	
-//	@Autowired
-//	private SysRoleMenuDao sysRoleMenuDao;
-//	
-//	@Autowired
-//	private SysMenuDao sysMenuDao;
+	@Autowired
+	private SysUserRoleDao sysUserRoleDao;
+	
+	@Autowired
+	private SysRoleMenuDao sysRoleMenuDao;
+	
+	@Autowired
+	private SysMenuDao sysMenuDao;
 	/**
 	 * 设置凭证匹配器，通过此对象指定加密算法
 	 */
@@ -87,29 +87,28 @@ public class ShiroUserRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-//		//1.获取用户信息
-//		SysUser user = (SysUser) principals.getPrimaryPrincipal();
-//		//2.基于用户id获取用户拥有的角色（sys_user_roles）
-//		List<Integer> roleIds = sysUserRoleDao.findRoleIdsByUserId(user.getId());
-//		if(roleIds==null||roleIds.size()==0)
-//			throw new AuthorizationException();
-//		//3.基于角色id获取菜单id
-//		Integer[] array={};
-//		List<Integer> menuIds=sysRoleMenuDao.findMenuIdsByRoleIds(roleIds.toArray(array));
-//	    if(menuIds==null||menuIds.size()==0)
-//	    	throw new AuthorizationException();
-//	  //4.基于菜单id获取权限标识(sys_menus)
-//	    List<String> permissions=sysMenuDao.findPermissions(menuIds.toArray(array));
-//		//5.对权限标识信息进行封装并返回
-//	    Set<String> set=new HashSet<>();
-//	    for(String per:permissions){
-//	    	if(!StringUtils.isEmpty(per)){
-//	    		set.add(per);
-//	    	}
-//	    }
-//	    SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
-//	    info.setStringPermissions(set);
-//		return info;//返回给授权管理器
-		return null;
+		//1.获取用户信息
+		SysUser user = (SysUser) principals.getPrimaryPrincipal();
+		//2.基于用户id获取用户拥有的角色（sys_user_roles）
+		List<Integer> roleIds = sysUserRoleDao.findRoleIdsByUserId(user.getId());
+		if(roleIds==null||roleIds.size()==0)
+			throw new AuthorizationException();
+		//3.基于角色id获取菜单id
+		Integer[] array={};
+		List<Integer> menuIds=sysRoleMenuDao.findMenuIdsByRoleIds(roleIds.toArray(array));
+	    if(menuIds==null||menuIds.size()==0)
+	    	throw new AuthorizationException();
+	    //4.基于菜单id获取权限标识(sys_menus)
+	    List<String> permissions=sysMenuDao.findPermissions(menuIds.toArray(array));
+		//5.对权限标识信息进行封装并返回
+	    Set<String> set=new HashSet<>();
+	    for(String per:permissions){
+	    	if(!StringUtils.isEmpty(per)){
+	    		set.add(per);
+	    	}
+	    }
+	    SimpleAuthorizationInfo info= new SimpleAuthorizationInfo();
+	    info.setStringPermissions(set);
+		return info;//返回给授权管理器
 	}
 }

@@ -3,9 +3,11 @@ package com.cy.sys.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-
-
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
 //import org.apache.shiro.SecurityUtils;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 //import org.apache.shiro.crypto.hash.SimpleHash;
@@ -15,6 +17,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.cy.common.annotation.RequiredLog;
 import com.cy.common.exception.ServiceException;
 import com.cy.common.vo.PageObject;
 import com.cy.sys.dao.SysUserDao;
@@ -32,35 +35,35 @@ public class SysUserServiceImpl implements SysUserService {
 	@Autowired
 	private SysUserRoleDao sysUserRoleDao;
 
-	//    @Override
-	//    public int updatePassword(String password,
-	//    		String newPassword, 
-	//    		String cfgPassword) {
-	//    	//1.参数校验
-	//    	//1.1非空验证
-	//    	if(StringUtils.isEmpty(password))
-	//    		throw new IllegalArgumentException("原密码不能为空");
-	//    	if(StringUtils.isEmpty(newPassword))
-	//    		throw new IllegalArgumentException("新密码不能为空");
-	//    	if(!newPassword.equals(cfgPassword))
-	//    		throw new IllegalArgumentException("两次密码输入必须一致");
-	//    	//1.2原密码正确性验证
-	//    	SysUser user=(SysUser)SecurityUtils.getSubject().getPrincipal();
-	//    	SimpleHash sh=
-	//    	new SimpleHash("MD5",password,user.getSalt(),1);
-	//    	if(!user.getPassword().equals(sh.toHex()))
-	//    	throw new ServiceException("原密码不正确");
-	//    	//1.3新密码与原密码不能相同
-	//    	sh=new SimpleHash("MD5",newPassword,user.getSalt(), 1);
-	//    	if(user.getPassword().equals(sh.toHex()))
-	//        throw new ServiceException("新密码不能与原密码相同");
-	//    	//2.更新密码
-	//    	String salt=UUID.randomUUID().toString();
-	//    	sh=new SimpleHash("MD5",newPassword,salt, 1);
-	//    	int rows=sysUserDao.updatePassword(sh.toHex(),salt,user.getId());
-	//        if(rows==0)throw new ServiceException("记录可能已经不存在");
-	//    	return rows;
-	//    }
+    @Override
+    public int updatePassword(String password,
+    		String newPassword, 
+    		String cfgPassword) {
+    	//1.参数校验
+    	//1.1非空验证
+    	if(StringUtils.isEmpty(password))
+    		throw new IllegalArgumentException("原密码不能为空");
+    	if(StringUtils.isEmpty(newPassword))
+    		throw new IllegalArgumentException("新密码不能为空");
+    	if(!newPassword.equals(cfgPassword))
+    		throw new IllegalArgumentException("两次密码输入必须一致");
+    	//1.2原密码正确性验证
+    	SysUser user=(SysUser)SecurityUtils.getSubject().getPrincipal();
+    	SimpleHash sh=
+    	new SimpleHash("MD5",password,user.getSalt(),1);
+    	if(!user.getPassword().equals(sh.toHex()))
+    	throw new ServiceException("原密码不正确");
+    	//1.3新密码与原密码不能相同
+    	sh=new SimpleHash("MD5",newPassword,user.getSalt(), 1);
+    	if(user.getPassword().equals(sh.toHex()))
+        throw new ServiceException("新密码不能与原密码相同");
+    	//2.更新密码
+    	String salt=UUID.randomUUID().toString();
+    	sh=new SimpleHash("MD5",newPassword,salt, 1);
+    	int rows=sysUserDao.updatePassword(sh.toHex(),salt,user.getId());
+        if(rows==0)throw new ServiceException("记录可能已经不存在");
+    	return rows;
+    }
 	/**
 	 *@Cacheable 描述业务方法时，表示的方法的返回要
 	 * 存储到cache中，默认key为实际参数的组合，值为方法
@@ -100,15 +103,15 @@ public class SysUserServiceImpl implements SysUserService {
 			throw new ServiceException("至少要为用户分配角色");
 		//2.保存用户自身信息
 		//2.1对密码进行加密
-		//    	String source=entity.getPassword();
-		//    	String salt=UUID.randomUUID().toString();
-		//    	SimpleHash sh=new SimpleHash(//Shiro框架
-		//    			"MD5",//algorithmName 算法
-		//    			 source,//原密码
-		//    			 salt, //盐值
-		//    			 1);//hashIterations表示加密次数
-		//    	entity.setSalt(salt);
-		//    	entity.setPassword(sh.toHex());
+    	String source=entity.getPassword();
+    	String salt=UUID.randomUUID().toString();
+    	SimpleHash sh=new SimpleHash(//Shiro框架
+    			"MD5",//algorithmName 算法
+    			 source,//原密码
+    			 salt, //盐值
+    			 1);//hashIterations表示加密次数
+    	entity.setSalt(salt);
+    	entity.setPassword(sh.toHex());
 		int rows=sysUserDao.insertObject(entity);
 		//3.保存用户角色关系数据
 		sysUserRoleDao.insertObjects(entity.getId(), roleIds);
@@ -118,9 +121,8 @@ public class SysUserServiceImpl implements SysUserService {
 		//4.返回结果
 		return rows;
 	}
-	//@CachePut(value = "userCache",key = "#entity.id" )
 	@CacheEvict(value = "userCache",key = "#entity.id",beforeInvocation =true )
-//	    @RequiredLog("修改用户")
+	@RequiredLog("修改用户")
 	@Override
 	public int updateObject(SysUser entity, Integer[] roleIds) {
 		//1.参数校验
@@ -142,8 +144,8 @@ public class SysUserServiceImpl implements SysUserService {
 	 * @RequiresPermissions 注解用于告诉shiro框架
 	 * 方法如下方法时需要"sys:user:valid"权限。
 	 */
-	//    @RequiresPermissions("sys:user:valid")
-	//    @RequiredLog("禁用启用")
+    @RequiresPermissions("sys:user:valid")
+    @RequiredLog("禁用启用")
 	@Override
 	public int validById(Integer id, Integer valid, String modifiedUser) {
 		//1.参数校验
@@ -174,14 +176,7 @@ public class SysUserServiceImpl implements SysUserService {
 		List<SysUserDeptVo> records=
 				sysUserDao.findPageObjects(username, startIndex, pageSize);
 		//4.对查询结果进行封装并返回
-				return new PageObject<SysUserDeptVo>(pageCurrent, records, rowCount, pageSize);
-//		PageObject<SysUserDeptVo> pageObject=new PageObject<>();
-//		pageObject.setPageCurrent(pageCurrent);
-//		pageObject.setRowCount(rowCount); 
-//		pageObject.setPageSize(pageSize);
-//		pageObject.setRecords(records);
-//		pageObject.setPageCount((rowCount-1)/pageSize+1);
-//		return pageObject;
+		return new PageObject<SysUserDeptVo>(pageCurrent, records, rowCount, pageSize);
 	}
 
 
