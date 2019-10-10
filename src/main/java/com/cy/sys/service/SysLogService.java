@@ -16,4 +16,5 @@ public interface SysLogService {
 	
 	public int deleteObjects(Integer...ids);
 	
+	public void saveObject(SysLog entity);
 }

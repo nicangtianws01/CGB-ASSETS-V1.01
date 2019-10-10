@@ -3,6 +3,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cy.sys.dao.SysLogDao">
+	<insert id="insertObject">
+		insert into sys_logs
+       (username,operation,method,params,time,ip,createdTime)
+       values
+       (#{username},#{operation},#{method},#{params},#{time},#{ip},#{createdTime})
+	</insert>
 	<select id="findPageObjects" resultType="com.cy.sys.entity.SysLog">
 		select * from sys_logs 
 		 <include refid="queryWhereId"/>
@@ -34,5 +40,4 @@
         	#{id}
         </foreach>
 	</delete>
-	
 </mapper>

@@ -3,9 +3,15 @@ package com.cy.sys.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.cy.common.annotation.RequiredLog;
 import com.cy.common.exception.ServiceException;
 import com.cy.common.vo.Node;
 import com.cy.sys.dao.SysMenuDao;
@@ -15,6 +21,12 @@ import com.cy.sys.service.SysMenuService;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Transactional(timeout = 30,
+			isolation = Isolation.READ_COMMITTED,
+			propagation = Propagation.REQUIRED,
+			readOnly = false,
+			rollbackFor = Throwable.class
+			)
 @Slf4j
 @Service
 public class SysMenuServiceImpl implements SysMenuService{
@@ -23,6 +35,9 @@ public class SysMenuServiceImpl implements SysMenuService{
 	private SysMenuDao sysMenuDao;
 	@Autowired
 	private SysRoleMenuDao sysRoleMenuDao;
+	
+	@Cacheable(value = "menuCache")
+	@Transactional(readOnly = true)
 	@Override
 	public List<SysMenu> findObjects() {
 		List<SysMenu> list = sysMenuDao.findObjects();
@@ -32,6 +47,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 		}
 		return list;
 	}
+	@RequiredLog("删除菜单")
 	@Override
 	public int deleteObject(Integer id) {
 		//1.判断参数是否有效
@@ -54,6 +70,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 		sysRoleMenuDao.deleteObjectsByMenuId(id);
 		return rows;
 	}
+	@RequiredLog("添加菜单")
 	@Override
 	public int saveObject(SysMenu entity) {
 		//1.判断用户信息是否完整
@@ -80,6 +97,8 @@ public class SysMenuServiceImpl implements SysMenuService{
 	public List<Node> findZtreeMenuNodes() {
 		return sysMenuDao.findZtreeMenuNodes();
 	}
+	@CachePut(value = "menuCache",key="#entity.id")
+	@RequiredLog("更新菜单")
 	@Override
 	public int updateObject(SysMenu entity) {
 		//1.验证参数

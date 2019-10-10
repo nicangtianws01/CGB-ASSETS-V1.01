@@ -27,6 +27,6 @@ public interface SysLogDao {
 
 	public int deleteObjects(@Param("ids")Integer...ids);
 	
-	
+	public int insertObject(SysLog entity);
 
 }
