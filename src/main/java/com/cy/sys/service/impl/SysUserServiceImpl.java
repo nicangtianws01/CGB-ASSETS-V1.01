@@ -35,6 +35,7 @@ public class SysUserServiceImpl implements SysUserService {
 	@Autowired
 	private SysUserRoleDao sysUserRoleDao;
 
+	@RequiredLog("更改密码")
     @Override
     public int updatePassword(String password,
     		String newPassword, 
@@ -88,6 +89,7 @@ public class SysUserServiceImpl implements SysUserService {
 		map.put("roleIds",roleIds);
 		return map;
 	}
+	@RequiredLog("添加用户")
 	@Override
 	public int saveObject(SysUser entity, Integer[] roleIds) {
 		long start=System.currentTimeMillis();
@@ -121,7 +123,7 @@ public class SysUserServiceImpl implements SysUserService {
 		//4.返回结果
 		return rows;
 	}
-	@CacheEvict(value = "userCache",key = "#entity.id",beforeInvocation =true )
+	@CacheEvict(value = "userCache",allEntries = true)
 	@RequiredLog("修改用户")
 	@Override
 	public int updateObject(SysUser entity, Integer[] roleIds) {
@@ -161,6 +163,7 @@ public class SysUserServiceImpl implements SysUserService {
 		return rows;
 	}
 
+    @Cacheable("userCache")
 	@Override
 	public PageObject<SysUserDeptVo> findPageObjects(String username, Integer pageCurrent) {
 		//1.参数校验

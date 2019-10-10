@@ -3,6 +3,8 @@ package com.cy.sys.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -28,6 +30,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 	@Autowired
 	private SysUserRoleDao sysUserRoleDao;
 
+	@Cacheable("roleCache")
 	@Override
 	public PageObject<SysRole> findPageObjects(String name, Integer pageCurrent) {
 		if (pageCurrent == null || pageCurrent<1) {
@@ -49,6 +52,7 @@ public class SysRoleServiceImpl implements SysRoleService {
 		return pageObject;
 	}
 
+	@CacheEvict(value = "roleCache",allEntries = true)
 	@Override
 	public int deleteRoleById(Integer id) {
 		if (id == null || id<1) {
@@ -74,7 +78,8 @@ public class SysRoleServiceImpl implements SysRoleService {
 		}
 		return findObjectById;
 	}
-
+	
+	@CacheEvict(value = "roleCache",allEntries = true)
 	@Override
 	public int updateObject(SysRole entity, Integer[] menuIds) {
 		//1.合法性验证
@@ -99,6 +104,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     	return rows;
 	}
 
+	@CacheEvict(value = "roleCache",allEntries = true)
 	@Override
 	public int saveObject(SysRole entity, Integer[] menuIds) {
 		//1.合法性验证
@@ -115,6 +121,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     	return rows;
 	}
 
+	@Cacheable("roleCache")
 	@Override
 	public List<CheckBox> findRoles() {
 		List<CheckBox> list=sysRoleDao.findRoles();

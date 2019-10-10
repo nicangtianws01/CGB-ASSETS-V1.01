@@ -3,6 +3,7 @@ package com.cy.sys.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 		return list;
 	}
 	@RequiredLog("删除菜单")
+	@CacheEvict(value="menuCache",allEntries = true)
 	@Override
 	public int deleteObject(Integer id) {
 		//1.判断参数是否有效
@@ -70,6 +72,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 		sysRoleMenuDao.deleteObjectsByMenuId(id);
 		return rows;
 	}
+	@CacheEvict(value="menuCache",allEntries = true)
 	@RequiredLog("添加菜单")
 	@Override
 	public int saveObject(SysMenu entity) {
@@ -97,7 +100,7 @@ public class SysMenuServiceImpl implements SysMenuService{
 	public List<Node> findZtreeMenuNodes() {
 		return sysMenuDao.findZtreeMenuNodes();
 	}
-	@CachePut(value = "menuCache",key="#entity.id")
+	@CacheEvict(value = "menuCache",allEntries = true)
 	@RequiredLog("更新菜单")
 	@Override
 	public int updateObject(SysMenu entity) {
